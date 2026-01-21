@@ -7,13 +7,18 @@ namespace ATMApp
         private readonly User _currentUser;
         private readonly UserRepository _repository;
         private int egyenleg;
+        private List<string> tranzakciók;
+        private ObservableCollection<dynamic> naplóAdatok;
 
         public ATMWindow(User currentUser)
         {
             InitializeComponent();
+            transactionList.ItemsSource = naplóAdatok;
             _repository = new UserRepository();
             _currentUser = _repository.LoadUsers().First(u => u.AccountNumber == currentUser.AccountNumber);
             egyenleg = _currentUser.Balance;
+
+            tranzakciók = new List<string>(_currentUser.Transactions ?? new List<string>());
         }
 
         private void MentésFelhasználóra()
@@ -71,6 +76,13 @@ namespace ATMApp
                 MessageBox.Show("Érvénytelen összeg!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return 0;
             }
+        }
+
+        private void NaplózTranzakció(string tranzakció)
+        {
+            tranzakciók.Add(tranzakció);
+            MentésFelhasználóra();
+            FrissítTranzakciók();
         }
     }
 }
