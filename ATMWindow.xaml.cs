@@ -94,5 +94,12 @@ namespace ATMApp
                 naplóAdatok.Add(new { Típus = tranzakció, Időpont = időpont });
             }
         }
+
+        private void ToggleHistory_Click(object sender, RoutedEventArgs e)
+        {
+            naplóLátható = !naplóLátható;
+            transactionList.Visibility = naplóLátható ? Visibility.Visible : Visibility.Collapsed;
+            toggleHistoryButton.Content = naplóLátható ? "Előzmények elrejtése" : "Előzmények megjelenítése";
+        }
     }
 }
