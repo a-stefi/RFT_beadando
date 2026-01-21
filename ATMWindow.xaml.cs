@@ -15,6 +15,17 @@ namespace ATMApp
             _currentUser = _repository.LoadUsers().First(u => u.AccountNumber == currentUser.AccountNumber);
             egyenleg = _currentUser.Balance;
         }
+
+        private void MentésFelhasználóra()
+        {
+            var users = _repository.LoadUsers();
+            var currentUser = users.FirstOrDefault(u => u.AccountNumber == _currentUser.AccountNumber);
+            if (currentUser != null)
+            {
+                currentUser.Balance = _currentUser.Balance;
+                _repository.SaveUsers(users);
+            }
+        }
         
         private void BalanceCheck_Click(object sender, RoutedEventArgs e)
         {
@@ -40,13 +51,13 @@ namespace ATMApp
         
         private void DepositButton_Click(object sender, RoutedEventArgs e)
         {
-            private void DepositButton_Click(object sender, RoutedEventArgs e)
+            int összeg = KérÖsszeg("Kérem adja meg a befizetni kívánt összeget:");
+            if (összeg > 0) 
             {
-                int összeg = KérÖsszeg("Kérem adja meg a befizetni kívánt összeget:");
-                if (összeg > 0) {
-                    _currentUser.Balance += összeg;
-                    MessageBox.Show("Sikeres befizetés!");
-                }
+                _currentUser.Balance += összeg;
+                MentésFelhasználóra();
+                    
+                MessageBox.Show("Sikeres befizetés!");
             }
         }
 
