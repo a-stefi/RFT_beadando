@@ -5,6 +5,8 @@ namespace ATMApp
 {
     public partial class MainWindow : Window
     {
+        private int próbálkozásokSzáma = 0;
+    
         public MainWindow()
         {
             InitializeComponent();
@@ -25,7 +27,15 @@ namespace ATMApp
             }
             else
             {
-                errorLabel.Content = "Hibás fiókszám vagy PIN kód!";
+                próbálkozásokSzáma++;
+                if (próbálkozásokSzáma >= 3)
+                {
+                    errorLabel.Content = "Túl sok hibás próbálkozás!";
+                }
+                else
+                {
+                    errorLabel.Content = "Hibás fiókszám vagy PIN kód!";
+                }
             }
         }
 
