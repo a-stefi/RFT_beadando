@@ -25,5 +25,7 @@
         <Button Content="Regisztráció" HorizontalAlignment="Left" Margin="16,247,0,0" VerticalAlignment="Top" Width="150" Click="RegisterButton_Click" Height="35" Grid.Row="1" FontSize="20" Background="White" BorderBrush="White" Foreground="#FFFFD205" FontWeight="Bold" Grid.Column="2"/>
         
         <Label x:Name="errorLabel" Content="" Foreground="Red" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Grid.Column="2" Grid.Row="1" Width="240" Height="26"/>
+
+        <Button x:Name="ForgotPasswordButton" Content="Elfelejtett PIN kód?" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="30" Click="ForgotPasswordButton_Click" Grid.Row="1" Grid.Column="2" Background="White" BorderBrush="#FFFFFFFB" Foreground="#FFFFD205" Margin="16,106,0,0"/> 
     </Grid>
 </Window>
