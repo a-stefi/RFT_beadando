@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -33,9 +34,17 @@ namespace ATMApp
             {
                 loadingBar.Value = i;             
                 progressText.Text = $"{i}%";    
-                await Task.Delay(20);   
+                await Task.Delay(50);   
             }
+        }
+
+        private void OpenMainWindow()
+        {
+            MainWindow mainWindow = new MainWindow(); 
+            mainWindow.Show();                        
+            this.Close();                             
         }
     }
 }
+
 
