@@ -78,5 +78,11 @@ namespace ATMApp
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e) { }
+
+        private void ForgotPasswordButton_Click(object sender, RoutedEventArgs e)
+        {
+            ForgotPasswordWindow forgotPasswordWindow = new ForgotPasswordWindow();
+            forgotPasswordWindow.ShowDialog();
+        }
     }
 }
