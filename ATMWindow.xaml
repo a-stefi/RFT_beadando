@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="ATMApp.ATMWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ATM" Height="500" Width="430">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="101*"/>
+        </Grid.RowDefinitions>
+        <Image Margin="92,26,238,0" Source="/bank_logo.png" Stretch="Fill" OpacityMask="Black"/>
+        <Label Content="Ráfázol Bank" HorizontalAlignment="Left" Margin="172,31,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="39" Width="144"/>
+
+        <Button Content="Egyenleg lekérdezése" HorizontalAlignment="Left" Margin="0,49,0,0" VerticalAlignment="Top" Width="185" Click="BalanceCheck_Click" FontSize="14" Background="#FFFFD205" Foreground="White" FontWeight="Bold" BorderBrush="#FFFFD205" Height="27" Grid.Row="1"/>
+        <Button Content="Pénzfelvétel" HorizontalAlignment="Left" Margin="0,110,0,0" VerticalAlignment="Top" Width="185" Click="WithdrawButton_Click" Background="#FFFFD205" FontSize="14" Foreground="White" FontWeight="Bold" BorderBrush="#FFFFD205" Height="27" Grid.Row="1"/>
+        <Button Content="Pénzbefizetés" HorizontalAlignment="Left" VerticalAlignment="Top" Width="185" Click="DepositButton_Click" Background="#FFFFD205" FontSize="14" Foreground="White" FontWeight="Bold" BorderBrush="#FFFFD205" Height="28" Margin="0,168,0,0" Grid.Row="1"/>
+
+    </Grid>
+</Window>
