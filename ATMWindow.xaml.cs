@@ -16,7 +16,10 @@ namespace ATMApp
             egyenleg = _currentUser.Balance;
         }
         
-        private void BalanceCheck_Click(object sender, RoutedEventArgs e) {}
+        private void BalanceCheck_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show($"Jelenlegi egyenleg: {_currentUser.Balance} Ft", "Egyenleg", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
         private void WithdrawButton_Click(object sender, RoutedEventArgs e) {}
         private void DepositButton_Click(object sender, RoutedEventArgs e) {}
     }
