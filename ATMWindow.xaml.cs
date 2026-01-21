@@ -84,5 +84,15 @@ namespace ATMApp
             MentésFelhasználóra();
             FrissítTranzakciók();
         }
+
+        private void FrissítTranzakciók()
+        {
+            naplóAdatok.Clear();
+            foreach (var tranzakció in tranzakciók)
+            {
+                var időpont = DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss");
+                naplóAdatok.Add(new { Típus = tranzakció, Időpont = időpont });
+            }
+        }
     }
 }
