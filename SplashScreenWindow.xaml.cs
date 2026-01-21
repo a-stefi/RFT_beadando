@@ -17,6 +17,25 @@ namespace ATMApp
         public SplashScreenWindow()
         {
             this.InitializeComponent();
+            this.Loaded += OnSplashScreenLoaded;
+        }
+
+        private async void OnSplashScreenLoaded(object sender, RoutedEventArgs e)
+        {
+            await StartLoadingAsync(); 
+            MessageBox.Show("Betöltés kész!");
+            this.Close();
+        }
+
+        private async Task StartLoadingAsync()
+        {
+            for (int i = 1; i <= 100; i++)
+            {
+                loadingBar.Value = i;             
+                progressText.Text = $"{i}%";    
+                await Task.Delay(20);   
+            }
         }
     }
 }
+
