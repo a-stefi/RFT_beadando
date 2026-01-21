@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 
 namespace ATMApp
 {
-    public partial class SplashScreenWindow : UserControl
+    public partial class SplashScreenWindow : Window
     {
         public SplashScreenWindow()
         {
@@ -24,8 +24,7 @@ namespace ATMApp
         private async void OnSplashScreenLoaded(object sender, RoutedEventArgs e)
         {
             await StartLoadingAsync(); 
-            MessageBox.Show("Betöltés kész!");
-            this.Close();
+            OpenMainWindow();
         }
 
         private async Task StartLoadingAsync()
@@ -46,5 +45,6 @@ namespace ATMApp
         }
     }
 }
+
 
 
