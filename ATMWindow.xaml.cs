@@ -23,7 +23,17 @@ namespace ATMApp
         
         private void WithdrawButton_Click(object sender, RoutedEventArgs e) {}
         
-        private void DepositButton_Click(object sender, RoutedEventArgs e) {}
+        private void DepositButton_Click(object sender, RoutedEventArgs e)
+        {
+            private void DepositButton_Click(object sender, RoutedEventArgs e)
+            {
+                int összeg = KérÖsszeg("Kérem adja meg a befizetni kívánt összeget:");
+                if (összeg > 0) {
+                    _currentUser.Balance += összeg;
+                    MessageBox.Show("Sikeres befizetés!");
+                }
+            }
+        }
 
         private int KérÖsszeg(string üzenet)
         {
