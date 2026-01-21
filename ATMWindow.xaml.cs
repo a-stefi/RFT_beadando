@@ -20,7 +20,21 @@ namespace ATMApp
         {
             MessageBox.Show($"Jelenlegi egyenleg: {_currentUser.Balance} Ft", "Egyenleg", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        
         private void WithdrawButton_Click(object sender, RoutedEventArgs e) {}
+        
         private void DepositButton_Click(object sender, RoutedEventArgs e) {}
+
+        private int KérÖsszeg(string üzenet)
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox(üzenet, "Összeg", "0");
+            if (int.TryParse(input, out int összeg) && összeg > 0)
+                return összeg;
+            else
+            {
+                MessageBox.Show("Érvénytelen összeg!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return 0;
+            }
+        }
     }
 }
