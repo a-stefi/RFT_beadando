@@ -1,0 +1,197 @@
+RENDSZERTESZT JEGYZŐKÖNYV - RÁFÁZOL BANK ATM Projekt: ATM Szimulációs Szoftver
+Verzió: 1.0 
+Tesztelők: Stefán Alexander, Tóth András
+
+========================================================================
+
+TESZTELŐ: STEFÁN ALEXANDER Feladat: Alapvető funkciók tesztelése (Regisztráció, Belépés, Sima tranzakciók) Környezet: Windows 10 Laptop
+
+TESZT A01: Program indítása
+
+Művelet: Alkalmazás elindítása a Visual Studio-ból.
+Elvárt működés: A Splash Screen (töltőképernyő) megjelenik, végigfut a csík, majd bejön a bejelentkezés.
+Tapasztalat: A töltőképernyő rendben lefutott, a főablak megjelent.
+Eredmény: SIKERES
+
+TESZT A02: Regisztrációs ablak megnyitása
+
+Művelet: Kattintás a "Regisztráció" gombra.
+Elvárt működés: Megnyílik az adatbekérő űrlap.
+Tapasztalat: Az ablak megnyílt.
+Eredmény: SIKERES
+
+TESZT A03: Új felhasználó regisztrációja (Helyes adatokkal)
+
+Bemenet: Felhasználónév: TesztElek, Szül. hely: Miskolc, Dátum: 2000.01.01.
+Elvárt működés: Üzenet a sikeres regisztrációról, az adat bekerül a JSON fájlba.
+Tapasztalat: A program kiírta, hogy sikeres, a fájlban létrejött az új sor.
+Eredmény: SIKERES
+
+TESZT A04: Bejelentkezés
+
+Bemenet: Az új számlaszám és a megadott PIN kód.
+Elvárt működés: A rendszer beléptet az ATM kezelőfelületre.
+Tapasztalat: Sikeres belépés, megjelentek a sárga gombok.
+Eredmény: SIKERES
+
+TESZT A05: Kezdő egyenleg ellenőrzése
+
+Művelet: "Egyenleg lekérdezése" gomb megnyomása.
+Elvárt működés: A felugró ablakban 100.000 Ft látható (alapértelmezett érték).
+Tapasztalat: Pontosan 100.000 Ft-ot írt ki.
+Eredmény: SIKERES
+
+TESZT A06: Felhasználói adatok ellenőrzése
+
+Művelet: "Felhasználó adatai" gomb megnyomása.
+Elvárt működés: A regisztrációkor megadott adatok (Név, Szül. idő) jelennek meg.
+Tapasztalat: Minden adat egyezik a regisztrációval.
+Eredmény: SIKERES
+
+TESZT A07: Pénzbefizetés
+
+Bemenet: 50.000 Ft befizetése.
+Elvárt működés: Az egyenleg 150.000 Ft-ra nő, sikerüzenet.
+Tapasztalat: Kiírta a sikert, az egyenleg frissült.
+Eredmény: SIKERES
+
+TESZT A08: Hagyományos pénzfelvétel
+
+Bemenet: 10.000 Ft beírása az input mezőbe.
+Elvárt működés: Az egyenleg 140.000 Ft-ra csökken.
+Tapasztalat: A levonás megtörtént, a számolás helyes.
+Eredmény: SIKERES
+
+TESZT A09: Tranzakciós napló megjelenítése
+
+Művelet: "Előzmények megjelenítése" gomb.
+Elvárt működés: Az ablak alján megjelenik a lista a tranzakciókkal.
+Tapasztalat: A lista megjelent, benne van a befizetés és a kivét is dátummal.
+Eredmény: SIKERES
+
+TESZT A10: Tranzakciós napló elrejtése
+
+Művelet: "Előzmények elrejtése" gomb.
+Elvárt működés: A lista eltűnik, a gomb felirata megváltozik.
+Tapasztalat: A lista eltűnt, a felület visszaállt.
+Eredmény: SIKERES
+TESZT A11: Kijelentkezés
+Művelet: "Kijelentkezés" gomb.
+Elvárt működés: Az ATM ablak bezárul, visszakerülünk a bejelentkezéshez.
+Tapasztalat: Visszadobott a login képernyőre.
+Eredmény: SIKERES
+
+TESZT A12: Adatmentés ellenőrzése (Újra belépés)
+
+Művelet: Ismételt belépés ugyanazzal a felhasználóval.
+Elvárt működés: A módosított egyenleg (140.000 Ft) látható, nem nullázódott le.
+Tapasztalat: Az egyenleg megmaradt, az adatok nem vesztek el.
+Eredmény: SIKERES
+
+ALEXANDER MEGJEGYZÉSE: A program stabilan futott, a "happy path" (amikor mindent jól csinálunk) hibátlanul működik. A regisztrációnál figyelni kell a formátumokra, de egyébként egyszerű a használata.
+
+========================================================================
+ 
+2. TESZTELŐ: TÓTH ANDRÁS Feladat: Hibakezelés, Határértékek, Gyorspénz, Bizonylat, Biztonság Környezet: Windows 11 PC
+
+TESZT B01: Regisztráció korhatár ellenőrzése
+
+Bemenet: Születési dátum: 2015.05.20. (9 éves).
+Elvárt működés: Hibaüzenet, hogy a felhasználó túl fiatal, a regisztráció tiltása.
+Tapasztalat: A rendszer hibaüzenetet dobott, nem hozta létre a fiókot.
+Eredmény: SIKERES
+
+TESZT B02: Regisztráció formátum ellenőrzése
+
+Bemenet: Város neve kisbetűvel kezdve (pl. "budapest").
+Elvárt működés: Hibaüzenet, hogy nagy kezdőbetű szükséges.
+Tapasztalat: A validáció megfogta a hibát, jelezte a problémát.
+Eredmény: SIKERES
+
+TESZT B03: Duplikáció ellenőrzése
+
+Bemenet: Már létező számlaszámmal való regisztráció.
+Elvárt működés: Hibaüzenet, hogy a számlaszám foglalt.
+Tapasztalat: Nem engedte létrehozni a másodikat ugyanazzal a számmal.
+Eredmény: SIKERES
+
+TESZT B04: Hibás PIN kód (1. és 2. próba)
+
+Bemenet: Helyes számlaszám, de rossz PIN kód megadása.
+Elvárt működés: Hibaüzenet, a próbálkozások számlálása a háttérben.
+Tapasztalat: Jelezte a hibás belépést.
+Eredmény: SIKERES
+
+TESZT B05: Hibás PIN kód (3. próba - Tiltás)
+
+Bemenet: Harmadszor is rossz kód megadása.
+Elvárt működés: A bejelentkezés gomb letiltása 30 másodpercre, visszaszámláló megjelenése.
+Tapasztalat: A visszaszámláló elindult, nem lehetett kattintani a gombra.
+Eredmény: SIKERES
+
+TESZT B06: Tiltás lejárta
+
+Művelet: Várakozás 30 másodpercig.
+Elvárt működés: A visszaszámláló eltűnik, újra lehet próbálkozni.
+Tapasztalat: 0 után a felület visszaállt alaphelyzetbe, be tudtam lépni a jó kóddal.
+Eredmény: SIKERES
+
+TESZT B07: Pénzfelvétel fedezet nélkül
+
+Bemenet: Egyenleg: 100.000 Ft, Kért összeg: 200.000 Ft.
+Elvárt működés: Hibaüzenet ("Nincs elegendő egyenleg"), a pénz nem vonódik le.
+Tapasztalat: A hibaüzenet megjelent, az egyenleg változatlan maradt.
+Eredmény: SIKERES
+
+TESZT B08: Gyorspénz funkció (Kisebb összeg)
+
+Művelet: Kattintás az "5 000 Ft" gombra.
+Elvárt működés: Azonnali levonás, felugró sikerüzenet, gépelés nélkül.
+Tapasztalat: Gyorsan működött, levonta az összeget.
+Eredmény: SIKERES
+
+TESZT B09: Gyorspénz funkció (Túl nagy összeg)
+
+Művelet: Kattintás a "150 000 Ft" gombra (ha nincs annyi a számlán).
+Elvárt működés: Fedezethiány hibaüzenet.
+Tapasztalat: Helyesen kiírta, hogy nincs ennyi pénzem.
+Eredmény: SIKERES
+
+TESZT B10: Bizonylat nyomtatása
+
+Művelet: Tranzakció után "Igen" válasz a bizonylat kérdésre.
+Elvárt működés: Egy .txt fájl létrejötte az Asztalon.
+Tapasztalat: A fájl megjelent az asztalomon "Bizonylat_[dátum].txt" néven.
+Eredmény: SIKERES
+
+TESZT B11: Bizonylat tartalmának ellenőrzése
+
+Művelet: A létrehozott szöveges fájl megnyitása.
+Elvárt működés: A fájl tartalmazza a bank nevét, az összeget és a dátumot.
+Tapasztalat: Minden adat benne volt, formázott kinézettel.
+Eredmény: SIKERES
+
+TESZT B12: Elfelejtett jelszó
+
+Bemenet: Felhasználónév + Számlaszám + Új jelszó megadása.
+Elvárt működés: Sikerüzenet, majd belépés az új jelszóval.
+Tapasztalat: A jelszócsere működött, a JSON fájlban átíródott a PIN.
+Eredmény: SIKERES
+
+TESZT B13: Érvénytelen karakterek bevitele
+
+Bemenet: Összeg mezőbe szöveg írása (pl. "tízezer").
+Elvárt működés: A program nem fagy le, hibaüzenetet ad vagy nem engedi a műveletet.
+Tapasztalat: A "KérÖsszeg" ablak lekezelte, kiírta, hogy érvénytelen, nem omlott össze a program.
+Eredmény: SIKERES
+
+ANDRÁS MEGJEGYZÉSE: Direkt próbáltam rossz adatokkal megakasztani a programot, de a hibakezelés (try-catch és validációk) jól működött. A 30 másodperces tiltás idegesítő, de pont ez a lényege, szóval biztonsági szempontból jó. A bizonylat mentés mindenkinél működik, mert az Environment.GetFolderPath-ot használtuk.
+
+======================================================================== 
+
+ÖSSZESÍTÉS
+
+Lefuttatott tesztek száma: 25 Sikeres tesztek: 25 Sikertelen tesztek: 0
+
+A szoftver a tesztelés során stabilnak bizonyult, a követelményeknek megfelel. 
+Fontos azonban megjegyezni, hogy a program a készítés során folyamatos, nem dokumentált tesztelésre került a bugok azonnali javítása érdekében és ennek tudható be a végső tesztelés eredményessége.
