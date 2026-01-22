@@ -142,5 +142,34 @@ namespace ATMApp
             transactionList.Visibility = naplóLátható ? Visibility.Visible : Visibility.Collapsed;
             toggleHistoryButton.Content = naplóLátható ? "Előzmények elrejtése" : "Előzmények megjelenítése";
         }
+
+        private void KezelBizonylat(string típus, int összeg)
+{
+    var valasz = MessageBox.Show("Szeretne bizonylatot nyomtatni?", "Bizonylat", MessageBoxButton.YesNo, MessageBoxImage.Question);
+    if (valasz == MessageBoxResult.Yes)
+    {
+        try
+        {
+            string fajlNev = $"Bizonylat_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            string tartalom = "========== RÁFÁZOL BANK ==========\n" +
+                              "          BIZONYLAT               \n" +
+                              "==================================\n" +
+                              $"Dátum: {DateTime.Now}\n" +
+                              $"Fiókszám: {_currentUser.AccountNumber}\n" +
+                              $"Tranzakció: {típus}\n" +
+                              $"Összeg: {összeg} Ft\n" +
+                              $"Új egyenleg: {_currentUser.Balance} Ft\n" +
+                              "==================================\n" +
+                              "Köszönjük, hogy minket választott!";
+
+            File.WriteAllText(fajlNev, tartalom);
+            MessageBox.Show($"Bizonylat sikeresen elmentve:\n{fajlNev}", "Nyomtatás", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Hiba a bizonylat mentésekor: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+}
     }
 }
