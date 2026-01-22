@@ -8,18 +8,27 @@ namespace ATMApp
         private readonly UserRepository _repository;
         private int egyenleg;
         private List<string> tranzakciók;
+        private bool naplóLátható = false;
         private ObservableCollection<dynamic> naplóAdatok;
 
         public ATMWindow(User currentUser)
         {
             InitializeComponent();
+            naplóAdatok = new ObservableCollection<dynamic>();
             transactionList.ItemsSource = naplóAdatok;
             _repository = new UserRepository();
             _currentUser = _repository.LoadUsers().First(u => u.AccountNumber == currentUser.AccountNumber);
             egyenleg = _currentUser.Balance;
-
             tranzakciók = new List<string>(_currentUser.Transactions ?? new List<string>());
+
+            FrissítEgyenleg();
+            FrissítTranzakciók();
+            
+            transactionList.Visibility = Visibility.Collapsed;
+            toggleHistoryButton.Content = "Előzmények megjelenítése";
         }
+
+        private void FrissítEgyenleg() { }
 
         private void MentésFelhasználóra()
         {
@@ -28,6 +37,7 @@ namespace ATMApp
             if (currentUser != null)
             {
                 currentUser.Balance = _currentUser.Balance;
+                currentUser.Transactions = new List<string>(tranzakciók);
                 _repository.SaveUsers(users);
             }
         }
@@ -35,6 +45,7 @@ namespace ATMApp
         private void BalanceCheck_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show($"Jelenlegi egyenleg: {_currentUser.Balance} Ft", "Egyenleg", MessageBoxButton.OK, MessageBoxImage.Information);
+            NaplózTranzakció($"Egyenleg lekérdezve.");
         }
 
         private void FastCash_Click(object sender, RoutedEventArgs e)
@@ -50,12 +61,7 @@ namespace ATMApp
             int összeg = KérÖsszeg("Kérem adja meg a felvenni kívánt összeget:");
             if (összeg > _currentUser.Balance)
             {
-                MessageBox.Show("Nincs elegendő egyenleg!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            else if (összeg > 0)
-            {
-                _currentUser.Balance -= összeg;
-                MessageBox.Show("Sikeres pénzfelvétel!");
+                    PénzFelvételVégrehajtása(összeg);
             }
         }
 
@@ -70,7 +76,12 @@ namespace ATMApp
                 _currentUser.Balance -= összeg;
                 NaplózTranzakció($"Pénzfelvétel: -{összeg} Ft");
                 MentésFelhasználóra();
+                FrissítTranzakciók();
+                FrissítEgyenleg();
+                
                 MessageBox.Show($"Sikeres pénzfelvétel: {összeg} Ft");
+
+                KezelBizonylat("Pénzfelvétel", összeg);
             }
         }
         
@@ -81,8 +92,12 @@ namespace ATMApp
             {
                 _currentUser.Balance += összeg;
                 MentésFelhasználóra();
+                FrissítTranzakciók();
+                FrissítEgyenleg();
                     
-                MessageBox.Show("Sikeres befizetés!");
+                MessageBox.Show($"Sikeres befizetés: {összeg} Ft", "Siker", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                KezelBizonylat("Pénzbefizetés", összeg);
             }
         }
 
@@ -169,7 +184,5 @@ namespace ATMApp
         {
             MessageBox.Show($"Hiba a bizonylat mentésekor: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-    }
-}
     }
 }
