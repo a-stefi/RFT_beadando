@@ -39,18 +39,30 @@ namespace ATMApp
         
         private void WithdrawButton_Click(object sender, RoutedEventArgs e)
         {
-            private void WithdrawButton_Click(object sender, RoutedEventArgs e)
+            int összeg = KérÖsszeg("Kérem adja meg a felvenni kívánt összeget:");
+            if (összeg > _currentUser.Balance)
             {
-                int összeg = KérÖsszeg("Kérem adja meg a felvenni kívánt összeget:");
-                if (összeg > _currentUser.Balance)
-                {
-                    MessageBox.Show("Nincs elegendő egyenleg!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                else if (összeg > 0)
-                {
-                    _currentUser.Balance -= összeg;
-                    MessageBox.Show("Sikeres pénzfelvétel!");
-                }
+                MessageBox.Show("Nincs elegendő egyenleg!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (összeg > 0)
+            {
+                _currentUser.Balance -= összeg;
+                MessageBox.Show("Sikeres pénzfelvétel!");
+            }
+        }
+
+        private void PénzFelvételVégrehajtása(int összeg)
+        {
+            if (összeg > _currentUser.Balance)
+            {
+                MessageBox.Show("Nincs elegendő egyenleg!");
+            }
+            else
+            {
+                _currentUser.Balance -= összeg;
+                NaplózTranzakció($"Pénzfelvétel: -{összeg} Ft");
+                MentésFelhasználóra();
+                MessageBox.Show($"Sikeres pénzfelvétel: {összeg} Ft");
             }
         }
         
