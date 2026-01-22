@@ -1,0 +1,165 @@
+Rendszerterv – Ráfázol Bank ATM
+Verzió: 1.0, Státusz: Jóváhagyva
+
+1. A rendszer célja és határai
+A rendszer célja egy Windows asztali alkalmazás megvalósítása, amely szimulálja egy ATM működését. A szoftver helyi gépen fut, nem igényel központi szervert, az adatokat helyi fájlrendszerben tárolja. A rendszer fő feladatai: felhasználóazonosítás, tranzakciókezelés, egyenlegnyilvántartás és bizonylatolás.
+
+2. Alkalmazott technológiák
+A fejlesztés során az alábbi szoftveres környezetet és technológiákat alkalmazzuk:
+
+Programozási nyelv: C# 12.0
+
+Keretrendszer: .NET 8.0 (Long Term Support)
+
+Felületi technológia: WPF (Windows Presentation Foundation) XAML alapokon.
+
+Adattárolás: JSON (JavaScript Object Notation) szöveges fájl.
+
+Fejlesztőkörnyezet: Visual Studio 2022.
+
+Verziókezelés: Git.
+
+3. Rendszerarchitektúra
+Az alkalmazás egy Monolitikus Desktop Alkalmazás, amely rétegzett felépítést követ a kód átláthatósága érdekében.
+
+3.1. Logikai rétegek
+Presentation Layer (Megjelenítési réteg):
+
+XAML fájlok (.xaml) és a hozzájuk tartozó Code-Behind (.xaml.cs) fájlok.
+
+Felelős a felhasználói interakciókért és az adatok megjelenítéséért.
+
+Logic Layer (Üzleti logika réteg):
+
+Az ablakok kódjában (MainWindow.xaml.cs, ATMWindow.xaml.cs) található eseménykezelők.
+
+Validációk (pl. életkor ellenőrzés, egyenleg ellenőrzés).
+
+Data Access Layer (Adatelérési réteg):
+
+UserRepository.cs: Felelős az adatok betöltéséért és mentéséért.
+
+Közvetlen kapcsolatot tart a users.json fájllal.
+
+Model Layer (Adatmodell):
+
+User.cs: Az adatok szerkezetét leíró osztály (POCO).
+
+4. Adatbázis terv (JSON fájltípus)
+Mivel a rendszer nem használ RDBMS-t (pl. SQL), az adatok perzisztenciáját egy users.json fájl biztosítja.
+
+Fájl szerkezete: List<User>
+
+5. Osztályszerkezet (Class Diagram)
+A rendszer objektumorientált elveket követ. Az alábbi fő osztályok kerülnek implementálásra:
+
+5.1. Modellek és Segédosztályok
+User: Adattároló osztály (Properties: Username, AccountNumber, Balance, stb.).
+
+UserRepository:
+
+LoadUsers(): List<User> - Betölti a JSON-t.
+
+SaveUsers(List<User>): void - Elmenti a listát JSON-be.
+
+Program: Belépési pont (Main metódus), itt indul a Splash Screen.
+
+5.2. Ablakok (Views)
+SplashScreenWindow: Betöltési animáció (ProgressBar + Async Task).
+
+MainWindow: Bejelentkezés.
+
+Mezők: DispatcherTimer (tiltáshoz).
+
+Metódusok: LoginButton_Click, TiltásIndítása.
+
+RegistrationWindow: Új felhasználó felvitele.
+
+Validátorok: IsUnderage, CsakBetűk, ValidatePhoneNumber.
+
+ForgotPasswordWindow: PIN csere.
+
+ATMWindow: A fő funkciók ablaka.
+
+Metódusok: PénzFelvételVégrehajtása, KezelBizonylat, NaplózTranzakció.
+
+UserDataWindow: Csak olvasható adatlap.
+
+6. Működési logika és algoritmusok
+
+6.1. Bejelentkezés és Biztonság
+Felhasználó megadja a AccountNumber és Pin adatokat.
+
+Rendszer betölti a users.json-t és keresést végez (LINQ FirstOrDefault).
+
+Ha sikeres: Megnyílik az ATMWindow, MainWindow bezárul.
+
+Ha sikertelen:
+
+próbálkozásokSzáma növelése.
+
+Ha eléri a 3-at -> TiltásIndítása() (Timer start, UI tiltás 30 mp-ig).
+
+6.2. Pénzfelvétel folyamata (Szekvencia)
+Esemény kiváltása (Gombnyomás: Egyedi összeg vagy Gyorspénz).
+
+Ellenőrzés: KértÖsszeg <= JelenlegiEgyenleg.
+
+Ha van fedezet:
+
+Balance csökkentése.
+
+Transactions lista bővítése (.Add()).
+
+MentésFelhasználóra() hívása -> JSON fájl felülírása.
+
+UI frissítése.
+
+KezelBizonylat() hívása.
+
+Bizonylatolás:
+
+MessageBox kérdés (Igen/Nem).
+
+Ha Igen -> System.IO.File.WriteAllText -> Útvonal: Environment.GetFolderPath(Desktop).
+
+7. Felületi Tervek (UI Design)
+7.1. Általános design
+Színvilág:
+
+Háttér: Fehér / Világosszürke.
+
+Kiemelés (Gombok, Címsorok): Bank Sárga (#FFFFD205).
+
+Szöveg: Fekete.
+
+Logó: Bal felső sarokban vagy középen minden ablakon.
+
+7.2. Ablakok elrendezése
+Login: Grid layout, középre igazított beviteli mezők.
+
+ATM:
+
+Bal sáv: Klasszikus műveletek (Egyenleg, Befizetés).
+
+Jobb sáv: Adminisztráció (Logout, Adatok, History).
+
+Közép/Lent: UniformGrid a Gyorspénz gomboknak.
+
+Alul: ListView a naplónak.
+
+8. Hibakezelés
+A rendszer az alábbi kivételeket kezeli (try-catch blokkokkal vagy előzetes ellenőrzéssel):
+
+Fájlkezelés: Ha a users.json sérült vagy nem írható -> Hibaüzenet, üres lista betöltése.
+
+Bevitel: int.TryParse használata minden számbevitelnél, hogy elkerüljük a formátumhibákat.
+
+Bizonylat: Ha az írási jog hiányzik az Asztalra -> try-catch blokkban elkapjuk és értesítjük a felhasználót.
+
+9. Telepítési és Futtatási környezet
+OS: Windows 10 vagy újabb (64-bit).
+
+Függőség: .NET 8.0 Desktop Runtime.
+
+Jogosultság: A felhasználónak írási joga kell legyen az alkalmazás mappájában (JSON mentéshez) és a saját Asztalán (Bizonylat).
