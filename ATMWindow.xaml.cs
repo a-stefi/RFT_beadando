@@ -66,6 +66,13 @@ namespace ATMApp
             }
         }
 
+        private void ToggleHistory_Click(object sender, RoutedEventArgs e)
+        {
+            naplóLátható = !naplóLátható;
+            transactionList.Visibility = naplóLátható ? Visibility.Visible : Visibility.Collapsed;
+            toggleHistoryButton.Content = naplóLátható ? "Előzmények elrejtése" : "Előzmények megjelenítése";
+        }
+
         private int KérÖsszeg(string üzenet)
         {
             string input = Microsoft.VisualBasic.Interaction.InputBox(üzenet, "Összeg", "0");
