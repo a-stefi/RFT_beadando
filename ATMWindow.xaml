@@ -15,6 +15,17 @@
         <Button Content="Pénzfelvétel" HorizontalAlignment="Left" Margin="0,110,0,0" VerticalAlignment="Top" Width="185" Click="WithdrawButton_Click" Background="#FFFFD205" FontSize="14" Foreground="White" FontWeight="Bold" BorderBrush="#FFFFD205" Height="27" Grid.Row="1"/>
         <Button Content="Pénzbefizetés" HorizontalAlignment="Left" VerticalAlignment="Top" Width="185" Click="DepositButton_Click" Background="#FFFFD205" FontSize="14" Foreground="White" FontWeight="Bold" BorderBrush="#FFFFD205" Height="28" Margin="0,168,0,0" Grid.Row="1"/>
 
+        <Label Content="Gyorspénz felvétel:" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+
+        <UniformGrid Rows="2" Columns="3" Grid.Row="1" Margin="10,195,10,0" Height="70" VerticalAlignment="Top">
+            <Button Content="5 000 Ft" Tag="5000" Click="FastCash_Click" Margin="0,0,5,5" Background="#FF4CAF50"/>
+            <Button Content="10 000 Ft" Tag="10000" Click="FastCash_Click" Margin="0,0,5,5" Background="#FF4CAF50"/>
+            <Button Content="20 000 Ft" Tag="20000" Click="FastCash_Click" Margin="0,0,0,5" Background="#FF4CAF50"/>
+            <Button Content="50 000 Ft" Tag="50000" Click="FastCash_Click" Margin="0,0,5,0" Background="#FF4CAF50"/>
+            <Button Content="100 000 Ft" Tag="100000" Click="FastCash_Click" Margin="0,0,5,0" Background="#FF4CAF50"/>
+            <Button Content="150 000 Ft" Tag="150000" Click="FastCash_Click" Margin="0,0,0,0" Background="#FF4CAF50"/>
+        </UniformGrid>
+        
         <Label Content="Tranzakciós napló:" HorizontalAlignment="Center" Margin="0,225,0,0" VerticalAlignment="Top" Foreground="#FFFFD205" FontWeight="Bold" Height="27" Grid.Row="1" Width="114"/>
         <ListView x:Name="transactionList"  Margin="10,252,10,10" Grid.Row="1">
             <ListView.View>
