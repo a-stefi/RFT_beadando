@@ -81,6 +81,12 @@ namespace ATMApp
             mainWindow.Show();
         }
 
+        private void UserDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserDataWindow userDataWindow = new UserDataWindow(_currentUser);
+            userDataWindow.Show();
+        }
+
         private int KérÖsszeg(string üzenet)
         {
             string input = Microsoft.VisualBasic.Interaction.InputBox(üzenet, "Összeg", "0");
