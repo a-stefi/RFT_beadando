@@ -73,6 +73,14 @@ namespace ATMApp
             toggleHistoryButton.Content = naplóLátható ? "Előzmények elrejtése" : "Előzmények megjelenítése";
         }
 
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            MainWindow mainWindow = new MainWindow();
+            Application.Current.MainWindow = mainWindow;
+            mainWindow.Show();
+        }
+
         private int KérÖsszeg(string üzenet)
         {
             string input = Microsoft.VisualBasic.Interaction.InputBox(üzenet, "Összeg", "0");
