@@ -1,0 +1,84 @@
+Projekt Beszámoló – Ráfázol Bank ATM szimulátor
+Készítette: Stefén Alexander és Tóth András fejlesztésével
+Téma: ATM szimulációs program készítése (WPF alapú vizuális megjelenéssel)
+
+1. Bevezetés
+A projektünk célja az volt, hogy a kitalált "Ráfázol Bank" számára készítsünk egy modern, számítógépes programot. A feladatleírás szerint a bank eddig mindent papíron, füzetekben vezetett, ami lassú és macerás volt. A mi feladatunk az volt, hogy ezt kiváltsuk egy olyan szoftverrel, ahol az ügyfelek maguknak tudnak pénzt felvenni, befizetni és egyenleget nézni, pont mint egy igazi ATM-nél.
+
+A programot úgy készítettük el, hogy Windows-on fusson, és ne kelljen hozzá bonyolult szerver, ezért az adatokat a saját gépén tárolja.
+
+2. Felhasznált eszközök és technológia
+A fejlesztéshez a Visual Studio 2022-t használtuk és C# nyelven írtuk a kódot.
+
+WPF (Windows Presentation Foundation): Azért ezt választottuk a régi Windows Forms helyett, mert sokkal szebb felületeket lehet vele csinálni. Így tudtuk megcsinálni a modern kinézetet és a sárga-fekete banki dizájnt.
+
+JSON fájlok: Mivel a követelmény az volt, hogy offline is működjön a rendszer, nem használtunk SQL adatbázist. Helyette egy users.json nevű fájlba mentünk el mindent (felhasználók, egyenleg, tranzakciók). Ez egyszerű és jól működik.
+
+3. Mit tud a program? (Funkciók)
+A programunk lefedi az összes kért funkciót. Íme a legfontosabbak:
+
+3.1. Indítás és Belépés
+Amikor elindul a program, egy töltőképernyő (Splash Screen) fogadja a felhasználót egy csíkkal, ami végigfut. Ezután jön a bejelentkezés.
+
+Biztonság: Odafigyeltünk rá, hogy ne lehessen feltörni a fiókot. Ha valaki háromszor rossz PIN kódot ad meg, a rendszer 30 másodpercre letiltja a gombot, és egy visszaszámláló jelzi, mikor próbálkozhat újra.
+
+3.2. Regisztráció
+Itt lehet új ügyfeleket felvenni. A program ellenőrzi, hogy:
+
+Minden mező ki van-e töltve.
+
+A névben nincsenek-e számok.
+
+A születési hely nagybetűvel kezdődik-e.
+
+Korhatár: Ez volt a legnehezebb része, de megoldottuk: a program kiszámolja a születési dátumból, hogy az illető elmúlt-e 14 éves. Ha nem, nem engedi regisztrálni.
+
+3.3. Pénzügyek az ATM-ben
+Ez a fő rész.
+
+Egyenleg: Egy kattintással kiírja, mennyi pénz van a számlán.
+
+Befizetés: Beírt összeggel növeli az egyenleget.
+
+Pénzfelvétel: Kétféleképpen lehet pénzt kivenni. Vagy beírjuk az összeget, vagy használjuk az új "Gyorspénz" gombokat. Csináltunk 6 gombot (pl. 5000 Ft, 20000 Ft), amivel egy kattintás a felvétel. Szerintünk ez lett a leghasznosabb funkció.
+
+Bizonylat: Ha a felhasználó kéri, a gép csinál egy szöveges fájlt (.txt) az Asztalra, amiben benne vannak a tranzakció adatai.
+
+4. Értékelés és tapasztalatok
+Végigmentünk a tanár úr/nő által megadott követelménylistán, és szerintünk sikerült mindent teljesíteni.
+
+4.1. Követelmények teljesítése
+K01 (Offline működés): Működik, a JSON fájlba ment mindent.
+
+K02 (Regisztráció ellenőrzés): Működik, nem enged be hülyeséget vagy 14 év alattit.
+
+K03 (3 hibás kód): Működik az időzítő.
+
+K04 (Naplózás): A listában azonnal látszanak a tranzakciók.
+
+K05 (Gyorspénz): Megcsináltuk a gombokat.
+
+K06 (Bizonylat): Menti a fájlt az asztalra.
+
+4.2. Mi sikerült jól és mi kevésbé?
+Ami tetszik:
+
+A kinézet szerintünk nagyon el lett találva, profinak tűnik a banki logóval.
+
+A kódunk átlátható maradt, külön fájlokba raktuk a logikát (pl. User.cs, UserRepository.cs), nem csak mindent egybeömlesztettünk.
+
+A bizonylat nyomtatásnál megoldottuk, hogy minden gép asztalát megtalálja, ne csak a miénket.
+
+Amin lehetne javítani:
+
+A jelszavakat jelenleg sima szövegként tároljuk a JSON-ben. Tudjuk, hogy ez élesben nem biztonságos, de most a működés volt a lényeg. Később ezt le kéne kódolni (hash).
+
+Jelenleg csak Forintot kezel a rendszer.
+
+5. Nehézségek a fejlesztés közben
+Volt pár dolog, amivel megküzdöttünk. Az elején a "Gyorspénz" gomboknál és a sima pénzfelvételnél kétszer írtuk le ugyanazt a kódot. Rájöttünk, hogy ez így nem jó, mert ha változtatni kell, akkor két helyen kell átírni. Ezért csináltunk egy közös metódust (PénzFelvételVégrehajtása), amit mindkét gomb meghív. Így sokkal tisztább lett a kód.
+
+A bizonylat mentésénél először mindig hibát dobott a program, ha olyan fájlnevet adtunk meg, ami már létezett. Ezt úgy oldottuk meg, hogy a fájl nevébe beleírtuk a pontos időpontot másodpercre pontosan, így minden bizonylat neve egyedi lett.
+
+6. Összegzés
+A program stabil, nem fagy le (raktunk bele try-catch blokkokat), és minden funkciót tud, amit a Ráfázol Bank kért. Készen áll a beadásra.
