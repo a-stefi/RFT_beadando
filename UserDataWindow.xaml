@@ -1,0 +1,7 @@
+<Window x:Class="ATMApp.UserDataWindow"
+        Title="Felhasználói adatok" Height="300" Width="400">
+    <Grid>
+        <Label Content="Felhasználónév:" Margin="30,9,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBlock x:Name="usernameTextBlock" Margin="150,16,0,0" VerticalAlignment="Top"/>
+        </Grid>
+</Window>
