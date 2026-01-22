@@ -36,7 +36,8 @@ namespace ATMApp
 
             if (user != null)
             {
-                MessageBox.Show("Sikeres bejelentkezés!");
+                ATMWindow atmWindow = new ATMWindow(user);
+                atmWindow.Show();
                 this.Close();
             }
             else
@@ -44,7 +45,7 @@ namespace ATMApp
                 próbálkozásokSzáma++;
                 if (próbálkozásokSzáma >= 3)
                 {
-                    errorLabel.Content = "Túl sok hibás próbálkozás!";
+                    TiltásIndítása();
                 }
                 else
                 {
@@ -77,7 +78,11 @@ namespace ATMApp
             }
         }
 
-        private void RegisterButton_Click(object sender, RoutedEventArgs e) { }
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            RegistrationWindow registrationWindow = new RegistrationWindow();
+            registrationWindow.ShowDialog();
+        }
 
         private void ForgotPasswordButton_Click(object sender, RoutedEventArgs e)
         {
